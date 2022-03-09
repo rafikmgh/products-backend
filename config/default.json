@@ -1,0 +1,4 @@
+{
+    "mongoURI": "mongodb+srv://onetikdz:onetik4life@devmern-p68qd.mongodb.net/test?retryWrites=true&w=majority",
+    "jwtSecret": "MeghoucheArtoisans20221"
+}    
