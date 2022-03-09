@@ -3,6 +3,7 @@ const config = require('config')
 const db = config.get('mongoURI')
 
 const connectDB = async () => {
+  //database connect verification
   try {
     mongoose.connect(db, {
       useNewUrlParser: true,
