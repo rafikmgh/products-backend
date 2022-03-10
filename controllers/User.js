@@ -64,47 +64,53 @@ var register = async (req, res) => {
     console.log(error)
     res.status(500).json({ message: 'Server Error' })
   }
+}
 
-  //connecting into our app
+//connecting into our app
+var login = async (req, res) => {
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() })
+  }
+  //geting data from the body
+  const { email, password } = req.body
 
-  var login = async (req, res) => {
-    const errors = validationResult(req)
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() })
+  try {
+    //verification if user exists in our database
+
+    let user = await User.findOne({ email })
+    if (!user) {
+      //if not we can display invalid credentials
+      return res.status(401).json({ message: 'Invalid Credentials' })
     }
-    //geting data from the body
-    const { email, password } = req.body
 
-    try {
-      //verification if user exists in our database
+    let match = await bcrypt.compare(password, user.password)
 
-      let user = await User.findOne({ email })
-      if (!user) {
-        //if not we can display invalid credentials
-        return res.status(401).json({ message: 'Invalid Credentials' })
-      }
-
-      // generate token
-
-      const payload = {
-        user: user._id,
-      }
-
-      await jwt.sign(
-        payload,
-        config.get('jwtSecret'),
-        {
-          expiresIn: '7d',
-        },
-        (error, token) => {
-          if (error) throw error
-          res.json({ token })
-        }
-      )
-    } catch (error) {
-      console.log(error)
-      res.status(500).json({ message: 'Server Error' })
+    if (!match) {
+      //if not we can display invalid credentials
+      return res.status(401).json({ message: 'Invalid Credentials' })
     }
+
+    // generate token
+
+    const payload = {
+      user: user._id,
+    }
+
+    await jwt.sign(
+      payload,
+      config.get('jwtSecret'),
+      {
+        expiresIn: '7d',
+      },
+      (error, token) => {
+        if (error) throw error
+        res.json({ token })
+      }
+    )
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: 'Server Error' })
   }
 }
 
