@@ -8,7 +8,7 @@ var Product = require('../models/Product')
 
 var createProduct = async (req, res) => {
   //body data
-  const { name, type, rating, warrenty_years, available, price } = req.body
+  const { name, type, rating, warranty_years, available, price } = req.body
 
   //init object to put the body data
   const productFields = {}
@@ -17,7 +17,7 @@ var createProduct = async (req, res) => {
   if (type) productFields.type = type
   if (price) productFields.price = price
   if (rating) productFields.rating = rating
-  if (warrenty_years) productFields.warrenty_years = warrenty_years
+  if (warranty_years) productFields.warranty_years = warranty_years
   if (available != null && available != undefined)
     productFields.available = available
 
@@ -39,7 +39,7 @@ var createProduct = async (req, res) => {
 
 //updating an existing product from the database
 var updateProduct = async (req, res) => {
-  const { name, type, rating, warrenty_years, available, price } = req.body
+  const { name, type, rating, warranty_years, available, price } = req.body
 
   const productFields = {}
 
@@ -47,7 +47,7 @@ var updateProduct = async (req, res) => {
   if (type) productFields.type = type
   if (price) productFields.price = price
   if (rating) productFields.rating = rating
-  if (warrenty_years) productFields.warrenty_years = warrenty_years
+  if (warranty_years) productFields.warranty_years = warranty_years
   if (available != null && available != undefined)
     productFields.available = available
 
